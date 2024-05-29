@@ -176,28 +176,28 @@
             <div class="card-title">Jumlah Pegawai</div>
             <div class="card-value-container">
                 <div class="card-icon"><i class="bi bi-people"></i></div>
-                <div class="card-value">100</div>
+                <div class="card-value">{{ $jumlahPegawai }}</div>
             </div>
         </div>
         <div class="card" style="width: 23%; height: 150px;">
             <div class="card-title">Pegawai Masuk Hari Ini</div>
             <div class="card-value-container">
                 <div class="card-icon"><i class="bi bi-person-check"></i></div>
-                <div class="card-value">70</div>
+                <div class="card-value">{{ $jumlahPegawaiMasukHariIni }}</div>
             </div>
         </div>
         <div class="card" style="width: 23%; height: 150px;">
             <div class="card-title">Waktu Masuk</div>
             <div class="card-value-container">
                 <div class="card-icon"><i class="bi bi-clock"></i></div>
-                <div class="card-value">07.00</div>
+                <div class="card-value">{{ \Carbon\Carbon::parse($jadwal->waktu_masuk)->format('H:i') }}</div>
             </div>
         </div>
         <div class="card" style="width: 23%; height: 150px;">
             <div class="card-title">Waktu Pulang</div>
             <div class="card-value-container">
                 <div class="card-icon"><i class="bi bi-clock-history"></i></div>
-                <div class="card-value">15.00</div>
+                <div class="card-value">{{ \Carbon\Carbon::parse($jadwal->waktu_keluar)->format('H:i') }}</div>
             </div>
         </div>
     </div>

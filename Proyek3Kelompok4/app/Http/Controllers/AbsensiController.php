@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Absensi;
 use App\Models\Kamera;
+use App\Models\Jadwal;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
 use App\Models\User;
@@ -15,6 +16,10 @@ class AbsensiController extends Controller
     function dashboard()
     {
         $users = User::where('role', '!=', 'admin')->get();
+        $jumlahPegawai = User::where('role', '!=', 'admin')->count();
+        $jumlahPegawaiMasukHariIni = Absensi::whereDate('waktu_masuk', '=', Carbon::today())->count();
+        $jadwal = Jadwal::where('nama_hari', Carbon::now()->locale('id')->dayName)->first();
+
         $labels = [];
 
         foreach ($users as $user) {
@@ -25,13 +30,6 @@ class AbsensiController extends Controller
         }
 
         $kamera = Kamera::where('status', '!=', 'nonaktif')->get();
-
-        /*$absensi = DB::table('absensi')
-            ->join('users', 'absensi.users_id', '=', 'users.id')
-            ->selectRaw('absensi.id, users.name as nama_user, users.photo as profil_user, DATE_FORMAT(absensi.waktu_masuk, "%H:%i") as waktu_masuk, DATE_FORMAT(absensi.waktu_keluar, "%H:%i") as waktu_keluar')
-            ->whereDate('absensi.waktu_masuk', DB::raw('CURDATE()'))
-            ->orderBy('absensi.id')
-            ->get();*/
         
         $absensiMasuk = DB::table('absensi')
             ->join('users', 'absensi.users_id', '=', 'users.id')
@@ -47,7 +45,7 @@ class AbsensiController extends Controller
             ->orderByDesc('updated_at')
             ->get();
 
-        return view('dashboard', compact('labels', 'absensi', 'kamera'));
+        return view('dashboard', compact('jumlahPegawai', 'jumlahPegawaiMasukHariIni', 'jadwal', 'labels', 'absensi', 'kamera'));
     }
 
     private function ambilJadwal()
