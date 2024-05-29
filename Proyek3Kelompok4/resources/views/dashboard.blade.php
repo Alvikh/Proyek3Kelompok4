@@ -112,7 +112,7 @@
         <div class="col-lg-6 mb-4 w-60">
             <div class="card canvas-container" style="height: 400px;">
                 <style>
-                    canvas {position: absolute;}
+                    canvas {position: fixed !important;}
                     .hiddenCam { opacity: 0; position: absolute; visibility: hidden; }
                     .showCam { opacity: 1; position: relative; visibility: visible; }
                 </style>
@@ -204,6 +204,7 @@
 </div>
 
 <!-- Core JS Files -->
+<!--
 <script src="../assets/js/core/popper.min.js"></script>
 <script src="../assets/js/core/bootstrap.min.js"></script>
 <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
@@ -220,5 +221,6 @@
 </script>
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 <script src="../assets/js/argon-dashboard.min.js?v=2.0.4"></script>
+-->
 </body>
 </html>

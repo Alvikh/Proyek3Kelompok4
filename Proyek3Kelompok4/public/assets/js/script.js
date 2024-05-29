@@ -19,6 +19,7 @@ function aktifkan() {
             btn_aktifkan.style = 'display:none';
             btn_pilihkamera.classList.remove("d-none");
             btn_pilihkamera.classList.add("d-flex");
+
             //mulaiKameraLokal()
             //recognizeFaces(lokalKamera);
             cameraSelect.addEventListener('change', (event) => {
@@ -30,11 +31,14 @@ function aktifkan() {
                 if (element.id === 'lokalKamera') {
                     return;
                 }
-                
+                    
                 var iniKamera = element;
                 //iniKamera.classList.remove("d-none");
 
-                recognizeFaces(iniKamera, labeledDescriptors);
+                setTimeout(function(){
+                    recognizeFaces(iniKamera, labeledDescriptors);
+                },1000);
+                    
             });
         }
 
@@ -95,7 +99,7 @@ function aktifkan() {
                         if (videoElement.classList.contains('showCam')) {
                             const mirroredX = displaySize.width - (box.x + box.width);
                             const mirroredBox = { x: mirroredX, y: box.y, width: box.width, height: box.height };
-                            const drawBox = new faceapi.draw.DrawBox(mirroredBox, { label: nama_person });
+                            const drawBox = new faceapi.draw.DrawBox(mirroredBox, { label: namafix, boxColor: 'purple' });
     
                             var rect = videoElement.getBoundingClientRect();
                             canvas.style.top = rect.top + 'px';
@@ -106,9 +110,9 @@ function aktifkan() {
                         //orang.innerText = namafix;
                     }
                 });
-            }, 100);
+            }, 200);
 
-            //ipCamInterval = intervalDeteksi;
+            ipCamInterval = intervalDeteksi;
             //videoElement.onerror = clearInterval(ipCamInterval);
         }
 
