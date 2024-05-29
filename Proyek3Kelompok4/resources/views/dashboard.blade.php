@@ -104,7 +104,7 @@
 <body>
 @include('layouts.sidebar')
 <div class="container-fluid py-4">
-    <div class="col d-flex w-100 gap-3 mb-4">
+    <div class="col d-flex w-100 gap-3">
         <div id="btn_aktifkan" class="btn btn-danger" onclick="aktifkan()">Mulai Deteksi</div>
         <div id="btn_pilihkamera" class="d-flex form-group">
             <select id="cameraSelect" class="form-control">
@@ -177,7 +177,7 @@
             </div>
         </div>
     </div>
-    <div class="dashboard mt-4">
+    <div class="dashboard">
         <div class="card" style="width: 23%; height: 150px;">
             <div class="card-title">Jumlah Pegawai</div>
             <div class="card-value-container">
