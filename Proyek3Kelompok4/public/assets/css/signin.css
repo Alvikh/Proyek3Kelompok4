@@ -1,0 +1,61 @@
+.bd-placeholder-img {
+  font-size: 1.125rem;
+  text-anchor: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+@media (min-width: 768px) {
+  .bd-placeholder-img-lg {
+    font-size: 3.5rem;
+  }
+}
+
+body {
+  background-color: #f8f9fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  padding: 20px;
+}
+
+.form-signin {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  width: 100%;
+}
+
+.form-floating {
+  margin-bottom: 15px;
+}
+
+.form-floating input {
+  height: 50px;
+  padding: 10px 20px;
+}
+
+.form-signin img {
+  margin-bottom: 20px;
+}
+
+.form-signin button {
+  background-color: #4318FF;
+  border: none;
+  height: 50px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.form-signin button:hover {
+  background-color: #2d0ebd;
+}
+
+.form-signin p {
+  margin-top: 20px;
+  color: #6c757d;
+}

@@ -1,0 +1,24 @@
+{
+    "private": true,
+    "type": "module",
+    "main": "assets/js/app.js",
+    "scripts": {
+        "start": "node src/app.js,nodemon src/app.js -L -e js,html",
+        "dev": "vite",
+        "build": "vite build"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.4",
+        "axios": "^1.6.4",
+        "laravel-vite-plugin": "^1.0",
+        "vite": "^5.0"
+    },
+    "name": "face-recognition-video",
+    "version": "1.0.0",
+    "description": "Face Reconition from Video using face-api.js",
+    "author": "Prashant Kumar",
+    "license": "ISC",
+    "dependencies": {
+      "express": "^4.17.1"
+    }
+}
