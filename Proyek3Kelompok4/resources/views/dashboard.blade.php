@@ -40,8 +40,8 @@
       justify-content: center;
     }
     .card-title {
-      color: #888;
-      font-size: 18px;
+      color: #585858;
+      font-size: 16px;
       margin-bottom: 10px;
     }
     .card-value-container {
@@ -73,15 +73,9 @@
       width: 100%;
       padding: 10px;
       border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
     .dropdown-item {
       padding: 10px;
-      border-bottom: 1px solid #e9ecef;
-      transition: background-color 0.3s;
-    }
-    .dropdown-item:hover {
-      background-color: #f1f1f1;
     }
     .avatar {
       border-radius: 50%;
@@ -115,7 +109,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-6 mb-4">
+        <div class="col-lg-6 mb-4 w-60">
             <div class="card canvas-container" style="height: 400px;">
                 <style>
                     canvas {position: absolute;}
@@ -124,7 +118,7 @@
                 </style>
                 <div class="d-flex justify-content-center">
                     @foreach ($kamera as $d)
-                        <img id="videoInput{{ $loop->iteration }}" class="deteksiKamera hiddenCam" src="{{ $d->sumber }}" alt="{{ $d->nama_ruang }} - {{ $d->nama_kamera }}" width="320" height="240" crossorigin="anonymous">
+                        <img id="videoInput{{ $loop->iteration }}" class="deteksiKamera hiddenCam" src="{{ $d->sumber }}" alt="{{ $d->nama_ruang }} - {{ $d->nama_kamera }}" width="480" height="360" crossorigin="anonymous">
                     @endforeach  
                     <video id="lokalKamera" class="deteksiKamera d-none" width="320" height="240" autoplay muted></video>
                     <style>.deteksiKamera {-webkit-transform: scaleX(-1);transform: scaleX(-1);text-indent:-9999px}</style>
@@ -138,10 +132,10 @@
                 <p class="d-none text-center mt-2">Orang dalam pantauan: <span id="orang"></span></p>
             </div>
         </div>
-        <div class="col-lg-6 mb-4">
+        <div class="col-lg-6 mb-4 w-40">
             <div class="card" style="height: 400px;">
-                <div class="card-body">
-                    <h5 class="card-title">Riwayat Kehadiran</h5>
+                <div class="card-body p-0">
+                    <h5 class="card-title mb-3" style="font-size:18px">Riwayat Kehadiran Hari Ini</h5>
                     <ul class="dropdown-menu show position-relative m-0 p-0">
                         @foreach ($absensi as $data)
                             <li class="mb-2">
