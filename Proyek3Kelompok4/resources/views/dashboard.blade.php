@@ -118,14 +118,22 @@
         <div class="col-lg-6 mb-4">
             <div class="card canvas-container" style="height: 400px;">
                 <style>
+                    canvas {position: absolute;}
                     .hiddenCam { opacity: 0; position: absolute; visibility: hidden; }
                     .showCam { opacity: 1; position: relative; visibility: visible; }
                 </style>
                 <div class="d-flex justify-content-center">
                     @foreach ($kamera as $d)
-                        <img id="videoInput{{ $loop->iteration }}" class="deteksiKamera d-none hiddenCam" src="{{ $d->sumber }}" alt="{{ $d->nama_ruang }} - {{ $d->nama_kamera }}" width="320" height="240" crossorigin="anonymous">
+                        <img id="videoInput{{ $loop->iteration }}" class="deteksiKamera hiddenCam" src="{{ $d->sumber }}" alt="{{ $d->nama_ruang }} - {{ $d->nama_kamera }}" width="320" height="240" crossorigin="anonymous">
                     @endforeach  
                     <video id="lokalKamera" class="deteksiKamera d-none" width="320" height="240" autoplay muted></video>
+                    <style>.deteksiKamera {-webkit-transform: scaleX(-1);transform: scaleX(-1);text-indent:-9999px}</style>
+                        <script defer async src="{{ asset('assets/js/face-api.min.js') }}"></script>
+                        <script>
+                            const labelOrang = @json($labels);
+                            var labels = labelOrang;
+                        </script>
+                        <script async src="{{ asset('assets/js/script.js') }}"></script>
                 </div>
                 <p class="d-none text-center mt-2">Orang dalam pantauan: <span id="orang"></span></p>
             </div>

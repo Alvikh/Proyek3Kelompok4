@@ -7,14 +7,15 @@ function aktifkan() {
         const lokalKamera = document.getElementById('lokalKamera');
         const semuaKamera = document.querySelectorAll('.deteksiKamera');
         const cameraSelect = document.getElementById('cameraSelect');
-        
+
         Promise.all([
             faceapi.nets.faceRecognitionNet.loadFromUri('/assets/models'),
             faceapi.nets.faceLandmark68Net.loadFromUri('/assets/models'),
             faceapi.nets.ssdMobilenetv1.loadFromUri('/assets/models')
         ]).then(start)
 
-        function start() {
+        async function start() {    
+            const labeledDescriptors = await loadLabeledImages();
             btn_aktifkan.style = 'display:none';
             btn_pilihkamera.classList.remove("d-none");
             btn_pilihkamera.classList.add("d-flex");
@@ -31,9 +32,9 @@ function aktifkan() {
                 }
                 
                 var iniKamera = element;
-                iniKamera.classList.remove("d-none");
+                //iniKamera.classList.remove("d-none");
 
-                recognizeFaces(iniKamera);
+                recognizeFaces(iniKamera, labeledDescriptors);
             });
         }
 
@@ -61,12 +62,12 @@ function aktifkan() {
                 .catch(err => console.error(err));
         }
 
-        async function recognizeFaces(videoElement) {
-            const labeledDescriptors = await loadLabeledImages();
+        async function recognizeFaces(videoElement, labeledDescriptors) {
+            //const labeledDescriptors = await loadLabeledImages();
             //console.log(labeledDescriptors);
             const faceMatcher = new faceapi.FaceMatcher(labeledDescriptors, 0.5);
 
-            console.log(`Memulai deteksi wajah untuk ${videoElement.alt}`);
+            //console.log(`Memulai deteksi wajah untuk ${videoElement.alt}`);
             const canvas = faceapi.createCanvasFromMedia(videoElement);
             document.body.append(canvas);
             const displaySize = { width: videoElement.width, height: videoElement.height };
