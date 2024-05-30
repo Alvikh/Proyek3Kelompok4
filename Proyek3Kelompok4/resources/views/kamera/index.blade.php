@@ -1,5 +1,5 @@
-@include('layouts.sidebar')
-@include('layouts.navbar')
+@extends('layouts.sidebar')
+@section('content')
 
 <!-- Modal -->
 <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
@@ -46,7 +46,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <div class="card mt-8">
+            <div class="card mt-5">
                 <div class="card-header d-flex justify-content-between pb-0">
                     <h4>Data Kamera</h4>
                     <a href="{{ route('kamera.create') }}" class="btn btn-success mb-3">Tambah</a>
@@ -135,3 +135,4 @@
 
     });
 </script>
+@endsection

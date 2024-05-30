@@ -1,0 +1,86 @@
+body {
+    background: linear-gradient(to bottom right, #f8f9fa, #e9ecef);
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  .container-fluid {
+    padding: 20px;
+  }
+  .btn-danger {
+    background-color: #ff4d4d;
+    border: none;
+    transition: background-color 0.3s, transform 0.3s;
+  }
+  .btn-danger:hover {
+    background-color: #ff3333;
+    transform: scale(1.05);
+  }
+  .form-group select {
+    margin-left: 10px;
+  }
+  .card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .card-title {
+    color: #585858;
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  .card-value-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  .card-value {
+    color: #4a4af2;
+    font-size: 36px;
+    font-weight: bold;
+  }
+  .card-icon {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    background: #4a4af2;
+    border-radius: 50%;
+    color: white;
+    line-height: 50px;
+    text-align: center;
+    font-size: 24px;
+  }
+  .card-icon i {
+    vertical-align: middle;
+  }
+  .dropdown-menu {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+  }
+  .dropdown-item {
+    padding: 10px;
+  }
+  .avatar {
+    border-radius: 50%;
+  }
+  .dashboard {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+  }
+  .canvas-container {
+    position: relative;
+  }
+  .deteksiKamera {
+    transform: scaleX(-1);
+    text-indent: -9999px;
+  }

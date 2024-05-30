@@ -1,102 +1,7 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <title>AutoAttend Dashboard</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.min.css" rel="stylesheet">
-  <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
-  <style>
-    body {
-      background: linear-gradient(to bottom right, #f8f9fa, #e9ecef);
-      font-family: 'Arial', sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-    .container-fluid {
-      padding: 20px;
-    }
-    .btn-danger {
-      background-color: #ff4d4d;
-      border: none;
-      transition: background-color 0.3s, transform 0.3s;
-    }
-    .btn-danger:hover {
-      background-color: #ff3333;
-      transform: scale(1.05);
-    }
-    .form-group select {
-      margin-left: 10px;
-    }
-    .card {
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      padding: 20px;
-      text-align: center;
-      transition: transform 0.3s;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-    .card-title {
-      color: #585858;
-      font-size: 16px;
-      margin-bottom: 10px;
-    }
-    .card-value-container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-    }
-    .card-value {
-      color: #4a4af2;
-      font-size: 36px;
-      font-weight: bold;
-    }
-    .card-icon {
-      display: inline-block;
-      width: 50px;
-      height: 50px;
-      background: #4a4af2;
-      border-radius: 50%;
-      color: white;
-      line-height: 50px;
-      text-align: center;
-      font-size: 24px;
-    }
-    .card-icon i {
-      vertical-align: middle;
-    }
-    .dropdown-menu {
-      width: 100%;
-      padding: 10px;
-      border-radius: 10px;
-    }
-    .dropdown-item {
-      padding: 10px;
-    }
-    .avatar {
-      border-radius: 50%;
-    }
-    .dashboard {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      justify-content: space-between;
-    }
-    .canvas-container {
-      position: relative;
-    }
-    .deteksiKamera {
-      transform: scaleX(-1);
-      text-indent: -9999px;
-    }
-  </style>
-</head>
-<body>
-@include('layouts.sidebar')
+@extends('layouts.sidebar')
+{{-- @include('layouts.navbar') --}}
+@section('content')
+<link href="{{ asset('assets/css/discover.css') }}" rel="stylesheet">
 <div class="container-fluid py-4">
     <div class="col d-flex w-100 gap-3">
         <div id="btn_aktifkan" class="btn btn-danger" onclick="aktifkan()">Mulai Deteksi</div>
@@ -171,6 +76,7 @@
             </div>
         </div>
     </div>
+    
     <div class="dashboard">
         <div class="card" style="width: 23%; height: 150px;">
             <div class="card-title">Jumlah Pegawai</div>
@@ -202,25 +108,4 @@
         </div>
     </div>
 </div>
-
-<!-- Core JS Files -->
-<!--
-<script src="../assets/js/core/popper.min.js"></script>
-<script src="../assets/js/core/bootstrap.min.js"></script>
-<script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
-<script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
-<script src="../assets/js/plugins/chartjs.min.js"></script>
-<script>
-    var win = navigator.platform.indexOf('Win') > -1;
-    if (win && document.querySelector('#sidenav-scrollbar')) {
-        var options = {
-            damping: '0.5'
-        }
-        Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
-    }
-</script>
-<script async defer src="https://buttons.github.io/buttons.js"></script>
-<script src="../assets/js/argon-dashboard.min.js?v=2.0.4"></script>
--->
-</body>
-</html>
+@endsection

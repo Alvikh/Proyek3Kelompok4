@@ -1,9 +1,3 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <title>User Profile</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.min.css" rel="stylesheet">
   <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
   <link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet">
@@ -67,11 +61,10 @@
       background-color: #0056b3;
     }
   </style>
-</head>
-<body>
 
-@include('layouts.sidebar')
 
+@extends('layouts.sidebar')
+@section('content')
 <div class="container-fluid py-4">
   <div class="card shadow-lg mx-4 profile-card">
     <div class="card-body p-3">
@@ -163,5 +156,4 @@
 </script>
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 <script src="{{ asset('assets/js/argon-dashboard.min.js?v=2.0.4') }}"></script>
-</body>
-</html>
+@endsection

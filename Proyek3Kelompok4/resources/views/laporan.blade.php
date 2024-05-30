@@ -1,9 +1,9 @@
-@include('layouts.sidebar')
-@include('layouts.navbar')
+@extends('layouts.sidebar')
+@section('content')
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <div class="card mt-8">
+            <div class="card mt-5">
                 <div class="card-header d-flex justify-content-between pb-0">
                     <h4>Riwayat Kehadiran</h4>
                 </div>
@@ -82,3 +82,4 @@
         </div>
     </div>
 </div>
+@endsection

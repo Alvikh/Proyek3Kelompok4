@@ -21,6 +21,8 @@
   <link href="{{ asset('assets/css/nucleo-svg.css') }}" rel="stylesheet" />
   <!-- CSS Files -->
   <link id="pagestyle" href="{{ asset('assets/css/argon-dashboard.css?v=2.0.4') }}" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/font/bootstrap-icons.min.css" rel="stylesheet">
+
 </head>
 
 <body class="g-sidenav-show   bg-gray-100">
@@ -58,7 +60,7 @@
                 </a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link {{ Request::is('users*') ? 'active' : '' }}" href="{{ url('/users') }}">
+                <a class="nav-link {{ Request::is('users*', 'or', 'models*') ? 'active' : ''}}" href="{{ url('/users') }}">
                     <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
                     </div>
@@ -117,4 +119,7 @@
   
   </aside>
   <main class="main-content position-relative border-radius-lg ">
-
+    @yield('content')
+  </main>
+</body>
+</html>

@@ -1,5 +1,5 @@
-@include('layouts.sidebar')
-@include('layouts.navbar')
+@extends('layouts.sidebar')
+@section('content')
 <div class="container">
   <div class="row">
     <div class="col-md-8 offset-md-2">
@@ -90,3 +90,4 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 });
 </script>
+@endsection

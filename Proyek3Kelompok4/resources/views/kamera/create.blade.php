@@ -1,12 +1,12 @@
-@include('layouts.sidebar')
-@include('layouts.navbar')
+@extends('layouts.sidebar')
+@section('content')
 
 <div class="container">
     <div class="row">
         <div class="col-md-8 offset-md-2">
             <div class="card mt-5">
                 <div class="card-header d-flex justify-content-between pb-0">
-                    <h4>Tambah Data Pengguna</h4>
+                    <h4>Tambah Data Kamera</h4>
                 </div>
                 <div class="card-body">
                     <form action="{{ route('kamera.store') }}" method="POST">
@@ -37,3 +37,4 @@
         </div>
     </div>
 </div>
+@endsection

@@ -1,10 +1,10 @@
-@include('layouts.sidebar')
-@include('layouts.navbar')
+@extends('layouts.sidebar')
+@section('content')
 
 <div class="container">
     <div class="row">
         <div class="col-md-8 offset-md-2">
-            <div class="card mt-8">
+            <div class="card mt-5">
                 <div class="card-header">
                     Tambah Jadwal Baru
                 </div>
@@ -47,3 +47,4 @@
         </div>
     </div>
 </div>
+@endsection
