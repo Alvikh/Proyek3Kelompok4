@@ -99,7 +99,7 @@
       <div style="margin-top: 10px;">
         <button class="w-100 btn btn-lg btn-primary" type="submit">Masuk</button>
       </div>
-      <p class="mt-5 mb-3 text-muted">&copy; kelompok3-2024</p>
+      <p class="mt-5 mb-3 text-muted">Kelompok 4 - &copy; 2024</p>
     </form>
   </main>
 </body>

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AbsensiController;
+use App\Http\Controllers\AbsensiAPIController;
 use App\Http\Controllers\CRUDPenggunaController;
 use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\KameraController;
@@ -45,10 +46,8 @@ Route::get('/pengaturan', function () {
 
 use App\Http\Controllers\ProfileController;
 
-// Route for displaying the profile edit form
 Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 
-// Route for handling the profile update
 Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
 
@@ -92,4 +91,8 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
     Route::get('/dashboard', [AbsensiController::class, 'dashboard'])->name('dashboard');
+
 });
+
+Route::get('/absensi/terbaru', [AbsensiAPIController::class, 'getAbsensiTerbaru']);
+Route::get('/absensi/pegawai/terbaru', [AbsensiAPIController::class, 'getDataPegawaiTerbaru']);

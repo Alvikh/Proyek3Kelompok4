@@ -30,17 +30,17 @@ class AbsensiController extends Controller
         }
 
         $kamera = Kamera::where('status', '!=', 'nonaktif')->get();
-        
+
         $absensiMasuk = DB::table('absensi')
             ->join('users', 'absensi.users_id', '=', 'users.id')
             ->selectRaw('absensi.updated_at, absensi.id, users.name as nama_user, users.photo as profil_user, DATE_FORMAT(absensi.waktu_masuk, "%H:%i") as waktu_masuk, NULL as waktu_keluar')
             ->whereDate('absensi.waktu_masuk', DB::raw('CURDATE()'));
-        
+
         $absensiKeluar = DB::table('absensi')
             ->join('users', 'absensi.users_id', '=', 'users.id')
             ->selectRaw('absensi.updated_at, absensi.id, users.name as nama_user, users.photo as profil_user, NULL as waktu_masuk, DATE_FORMAT(absensi.waktu_keluar, "%H:%i") as waktu_keluar')
             ->whereDate('absensi.waktu_keluar', DB::raw('CURDATE()'));
-        
+
         $absensi = $absensiKeluar->unionAll($absensiMasuk)
             ->orderByDesc('updated_at')
             ->get();
@@ -99,4 +99,5 @@ class AbsensiController extends Controller
             return response()->json(['error' => 'Tidak sesuai dengan waktu absensi'], 400);
         }
     }
+    
 }
