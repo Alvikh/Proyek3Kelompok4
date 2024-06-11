@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Kamera;
+use App\Models\Gedung;
+use App\Models\Ruang;
 use Illuminate\Validation\Rule;
 
 class KameraController extends Controller
@@ -11,7 +13,13 @@ class KameraController extends Controller
     public function index()
     {
         $kameras = Kamera::all();
-        return view('kamera.index', compact('kameras'));
+        $gedungs = Gedung::all();
+        $ruangs = Ruang::all();
+        $kameras = Gedung::join('kamera', 'gedung.id', '=', 'kamera.gedung_id')
+                ->join('ruang', 'ruang.id', '=', 'kamera.ruang_id')
+                ->get(['gedung.*', 'kamera.*', 'ruang.*']);
+
+        return view('kamera.index', compact('kameras', 'gedungs', 'ruangs'));
     }
 
     public function create()
@@ -22,7 +30,8 @@ class KameraController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'nama_ruang' => 'required',
+            'gedung_id' => 'required',
+            'ruang_id' => 'required',
             'nama_kamera' => 'required',
             'sumber' => 'required',
             'status' => 'required|in:aktif,nonaktif',
@@ -41,7 +50,8 @@ class KameraController extends Controller
     public function update(Request $request, Kamera $kamera)
     {
         $validatedData = $request->validate([
-            'nama_ruang' => 'required',
+            'gedung_id' => 'required',
+            'ruang_id' => 'required',
             'nama_kamera' => 'required',
             'sumber' => 'required',
             'status' => 'required|in:aktif,nonaktif',

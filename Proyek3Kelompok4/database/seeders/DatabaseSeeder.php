@@ -75,6 +75,16 @@ class DatabaseSeeder extends Seeder
                 'users_id' => 4,
                 'gambar' => 'assets/img/labeled_images/Rayya RR/3.jpg'
             ],
+            [
+                'id' => 6,
+                'users_id' => 4,
+                'gambar' => 'assets/img/labeled_images/Rayya RR/4.jpg'
+            ],
+            [
+                'id' => 7,
+                'users_id' => 4,
+                'gambar' => 'assets/img/labeled_images/Rayya RR/5.jpg'
+            ],
         ]);
 
         //////////////

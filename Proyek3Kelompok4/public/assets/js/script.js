@@ -69,7 +69,7 @@ function aktifkan() {
         async function recognizeFaces(videoElement, labeledDescriptors) {
             //const labeledDescriptors = await loadLabeledImages();
             //console.log(labeledDescriptors);
-            const faceMatcher = new faceapi.FaceMatcher(labeledDescriptors, 0.3);
+            const faceMatcher = new faceapi.FaceMatcher(labeledDescriptors, 0.5);
 
             //console.log(`Memulai deteksi wajah untuk ${videoElement.alt}`);
             const canvas = faceapi.createCanvasFromMedia(videoElement);

@@ -5,15 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\File;
 
 class ProfileController extends Controller
 {
     public function edit()
     {
-        return view('profile.edit'); // Make sure this view exists
+        return view('profile.edit');
     }
 
-    public function update(Request $request) // Fix: add $ before request
+    public function update(Request $request)
     {
         $user = Auth::user();
 
@@ -36,7 +37,7 @@ class ProfileController extends Controller
             $user->photo = $photoPath;
         }
 
-        $user->save();
+        $request->save();
 
         return redirect()->back()->with('success', 'Profile updated successfully.');
     }
