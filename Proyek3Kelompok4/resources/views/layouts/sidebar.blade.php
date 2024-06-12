@@ -67,6 +67,16 @@
                     </a>
                 </li>
                 <li class="nav-item ">
+                    <a class="nav-link {{ Request::is('riwayat*') ? 'active' : '' }}" href="{{ url('/riwayat') }}"
+                        href="{{ url('/users') }}">
+                        <div
+                            class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
+                        </div>
+                        <span class="nav-link-text ms-1">Riwayat</span>
+                    </a>
+                </li>
+                <li class="nav-item ">
                     <a class="nav-link {{ Request::is('users*', 'or', 'models*') ? 'active' : '' }}"
                         href="{{ url('/users') }}">
                         <div
@@ -83,15 +93,6 @@
                             <i class="ni ni-chart-bar-32 text-success text-sm opacity-10"></i>
                         </div>
                         <span class="nav-link-text ms-1">Laporan</span>
-                    </a>
-                </li>
-                <li class="nav-item ">
-                    <a class="nav-link {{ Request::is('jadwal*') ? 'active' : '' }}" href="{{ url('/jadwal') }}">
-                        <div
-                            class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="ni ni-calendar-grid-58 text-danger text-sm opacity-10"></i>
-                        </div>
-                        <span class="nav-link-text ms-1">Jadwal</span>
                     </a>
                 </li>
                 <style>

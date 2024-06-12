@@ -33,15 +33,9 @@ Route::post('/register', [AuthController::class, 'store'])->name('auth.store');
 Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 
 
-Route::get('/aktivitas', function () {
-    return view('aktivitas');
-});
+Route::get('/riwayat', [AbsensiController::class, 'riwayat'])->name('riwayat');
 
 Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
-
-Route::get('/pengaturan', function () {
-    return view('pengaturan');
-});
 
 Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
 
