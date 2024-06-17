@@ -100,6 +100,18 @@ class AbsensiController extends Controller
 
         $nama_person = $request->nama_person;
         $keterangan = $request->keterangan;
+
+        $ambilData = Kamera::where('kamera.id', $keterangan)
+            ->where('status', '!=', 'nonaktif')
+            ->join('ruang', 'kamera.ruang_id', '=', 'ruang.id')
+            ->join('gedung', 'kamera.gedung_id', '=', 'gedung.id')
+            ->select('kamera.*', 'ruang.nama_ruang', 'gedung.nama_gedung')
+            ->firstOrFail();
+
+        if (!$ambilData) {
+            return response()->json(['error' => 'Data kamera tidak ditemukan atau tidak aktif'], 404);
+        }
+
         $data = User::where('name', $nama_person)->firstOrFail();
         $userId = $data->id;
 
@@ -114,19 +126,22 @@ class AbsensiController extends Controller
             if (!$absenHariIni) {
                 Absensi::create([
                     'users_id' => $userId,
+                    'gedung_id' => $ambilData->gedung_id,
+                    'ruang_id' => $ambilData->ruang_id,
+                    'kamera_id' => $ambilData->id,
                     'waktu_masuk' => now(),
-                    'keterangan' => $keterangan
+                    'keterangan' => $ambilData->gedung->nama_gedung. " - ". $ambilData->ruang->nama_ruang. " - ". $ambilData->nama_kamera,
                 ]);
 
                 return response()->json(['success' => $data->name . ' - ' . 'Absensi masuk'], 200);
-            } elseif ($absenHariIni) {
+            } /*elseif ($absenHariIni) {
                 $absenHariIni->update([
                     'waktu_keluar' => now(),
                     'keterangan' => $keterangan
                 ]);
 
                 return response()->json(['success' => $data->name . ' - ' . 'Absensi keluar'], 200);
-            } else {
+            }*/ else {
                 return response()->json(['message' => $data->name . ' - ' . 'Sudah melakukan absensi atau belum waktunya absensi keluar'], 200);
             }
         } else {

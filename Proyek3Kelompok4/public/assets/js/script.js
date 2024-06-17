@@ -82,7 +82,7 @@ function aktifkan() {
                 
                 var iniKamera = element;
                 setTimeout(function(){
-                    lokasiTerdeteksi = iniKamera.alt;
+                    lokasiTerdeteksi = parseInt(iniKamera.getAttribute('data-id'));
                     recognizeFaces(iniKamera, labeledDescriptors, lokasiTerdeteksi);
                 },1000);
             });
@@ -126,6 +126,19 @@ function aktifkan() {
 
             let dataTerdeteksi = [];
 
+            const masukkanData = (name) => {
+                if (!dataTerdeteksi.includes(name)) {
+                    dataTerdeteksi.push(name);
+                    absenMasuk(name, lokasiTerdeteksi);
+                    setTimeout(() => {
+                        const index = dataTerdeteksi.indexOf(name);
+                        if (index > -1) {
+                            dataTerdeteksi.splice(index, 1);
+                        }
+                    }, 10000);
+                }
+            };
+
             intervalDeteksi = setInterval(async () => {
                 const detections = await faceapi.detectAllFaces(videoElement).withFaceLandmarks().withFaceDescriptors();
                 const resizedDetections = faceapi.resizeResults(detections, displaySize);
@@ -138,10 +151,12 @@ function aktifkan() {
                     const nama_person = result.toString();
                     const namafix = nama_person.replace(/\s\([^)]*\)/, '');
                     if (namafix !== "unknown") {
-                        if (!dataTerdeteksi.includes(namafix)) {
+                        console.log(dataTerdeteksi);
+                        masukkanData(namafix);
+                        /*if (!dataTerdeteksi.includes(namafix)) {
                             absenMasuk(namafix, lokasiTerdeteksi);
                             dataTerdeteksi.push(namafix);
-                        }
+                        }*/
 
                         if (videoElement.classList.contains('showCam')) {
                             const mirroredX = displaySize.width - (box.x + box.width);
