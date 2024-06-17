@@ -14,6 +14,14 @@
                     @csrf
                     @method('PUT')
                     <div class="mb-3">
+                        <label for="edit_gedung_id" class="form-label">Gedung:</label>
+                        <select class="form-control" id="edit_gedung_id" name="gedung_id">
+                            @foreach($gedungs as $gedung)
+                                <option value="{{ $gedung->id }}">{{ $gedung->nama_gedung }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="mb-3">
                         <label for="edit_nama_ruang" class="form-label">Nama Ruang:</label>
                         <input type="text" class="form-control" id="edit_nama_ruang" name="nama_ruang">
                     </div>
@@ -39,8 +47,16 @@
                 <form action="{{ route('ruang.store') }}" method="POST">
                     @csrf
                     <div class="mb-3">
-                        <label for="edit_nama_ruang" class="form-label">Nama Ruang:</label>
-                        <input type="text" class="form-control" id="edit_nama_ruang" name="nama_ruang">
+                        <label for="gedung_id" class="form-label">Gedung:</label>
+                        <select class="form-control" id="gedung_id" name="gedung_id">
+                            @foreach($gedungs as $gedung)
+                                <option value="{{ $gedung->id }}">{{ $gedung->nama_gedung }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="nama_ruang" class="form-label">Nama Ruang:</label>
+                        <input type="text" class="form-control" id="nama_ruang" name="nama_ruang">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
@@ -64,28 +80,22 @@
                     <table class="table">
                         <thead>
                             <tr>
-                                <th scope="col" class="px-2">#</th>
-                                <th scope="col" class="px-2">Nama Ruang</th>
-                                <th scope="col" class="px-2">Aksi</th>
+                                <th>Nama Ruang</th>
+                                <th>Gedung</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($ruangs as $ruang)
+                            @foreach($ruangs as $ruang)
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
                                     <td>{{ $ruang->nama_ruang }}</td>
+                                    <td>{{ $ruang->gedung->nama_gedung }}</td>
                                     <td>
-                                        <button type="button" class="btn btn-warning btn-sm"
-                                            data-bs-target="#editModal"
-                                            data-id="{{ $ruang->id }}"
-                                            data-nama_ruang="{{ $ruang->nama_ruang }}">
-                                            Edit
-                                        </button>
-                                        <form action="{{ route('ruang.destroy', $ruang->id) }}" method="POST"
-                                            style="display: inline;">
+                                        <button class="btn btn-sm btn-warning" data-id="{{ $ruang->id }}" data-nama_ruang="{{ $ruang->nama_ruang }}" data-gedung_id="{{ $ruang->gedung_id }}" data-bs-target="#editModal">Edit</button>
+                                        <form action="{{ route('ruang.destroy', $ruang->id) }}" method="POST" style="display:inline-block;">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                                            <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
                                         </form>
                                     </td>
                                 </tr>
@@ -104,14 +114,17 @@
         var editModal = document.getElementById('editModal');
         var editForm = document.getElementById('editForm');
         var editNamaRuang = document.getElementById('edit_nama_ruang');
+        var editGedungId = document.getElementById('edit_gedung_id');
 
         editButtons.forEach(function (button) {
             button.addEventListener('click', function () {
                 var id = this.getAttribute('data-id');
                 var namaRuang = this.getAttribute('data-nama_ruang');
+                var gedungId = this.getAttribute('data-gedung_id');
 
                 editForm.action = '/ruang/update/' + id;
                 editNamaRuang.value = namaRuang;
+                editGedungId.value = gedungId;
 
                 var modal = new bootstrap.Modal(editModal);
                 modal.show();

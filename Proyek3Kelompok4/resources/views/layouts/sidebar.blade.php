@@ -41,7 +41,7 @@
             notifErrors();
         </script>
     @endif
-    <div class="min-height-300 bg-primary position-absolute w-100"></div>
+    <div class="min-height-300 bg-primary position-absolute w-100" style="min-height: 50% !important"></div>
     <aside
         class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 "
         id="sidenav-main">
@@ -140,7 +140,7 @@
                         background-color: #f6f9fc;
                     }
 
-                    ::-webkit-scrollbar{-webkit-appearance:none;width:3px;height:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(0,0,0,.15);border-radius:10px}::-webkit-scrollbar-thumb:hover{background:rgba(0,0,0,.35)}::-webkit-scrollbar-thumb:active{background:rgba(0,0,0,.35)}
+                    ::-webkit-scrollbar{-webkit-appearance:none;width:0;height:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(0,0,0,.15);border-radius:10px}::-webkit-scrollbar-thumb:hover{background:rgba(0,0,0,.35)}::-webkit-scrollbar-thumb:active{background:rgba(0,0,0,.35)}
                 </style>
                 <li class="nav-item">
                     <input type="checkbox" id="toggle-news" class="toggle-input">

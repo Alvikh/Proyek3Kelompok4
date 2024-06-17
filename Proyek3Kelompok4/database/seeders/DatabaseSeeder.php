@@ -85,6 +85,16 @@ class DatabaseSeeder extends Seeder
                 'users_id' => 4,
                 'gambar' => 'assets/img/labeled_images/Rayya RR/5.jpg'
             ],
+            [
+                'id' => 8,
+                'users_id' => 3,
+                'gambar' => 'assets/img/labeled_images/Dina IK/1.jpg'
+            ],
+            [
+                'id' => 9,
+                'users_id' => 3,
+                'gambar' => 'assets/img/labeled_images/Dina IK/2.jpg'
+            ],
         ]);
 
         //////////////
@@ -124,6 +134,34 @@ class DatabaseSeeder extends Seeder
                 'status' => 'aktif',
                 'waktu_masuk' => '07:30:00',
                 'waktu_keluar' => '11:30:00',
+            ],
+        ]);
+
+        ///
+
+        DB::table('gedung')->insert([
+            [
+                'id' => 1,
+                'nama_gedung' => 'JTI',
+            ],
+            [
+                'id' => 2,
+                'nama_gedung' => 'GSC',
+            ],
+        ]);
+
+        ///
+
+        DB::table('ruang')->insert([
+            [
+                'id' => 1,
+                'gedung_id' => 1,
+                'nama_ruang' => 'Rekayasa Perangkat Lunak',
+            ],
+            [
+                'id' => 2,
+                'gedung_id' => 2,
+                'nama_ruang' => 'Data Science',
             ],
         ]);
     }

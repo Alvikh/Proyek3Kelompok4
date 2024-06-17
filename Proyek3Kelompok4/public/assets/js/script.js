@@ -1,18 +1,71 @@
 var varaktifkan = false;
+var lokasiTerdeteksi = null;
 const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+const gedungSelect = document.getElementById('gedungSelect');
+const ruangSelect = document.getElementById('ruangSelect');
+const kameraSelect = document.getElementById('kameraSelect');
+
+gedungSelect.addEventListener('change', function () {
+    const gedungId = this.value;
+    if (gedungId) {
+        fetch(`/api/get-ruang/${gedungId}`)
+            .then(response => response.json())
+            .then(data => {
+                ruangSelect.innerHTML = '<option value="">Pilih Ruang</option>';
+                data.forEach(ruang => {
+                    ruangSelect.innerHTML += `<option value="${ruang.id}">${ruang.nama_ruang}</option>`;
+                });
+                ruangSelect.classList.remove('d-none');
+            });
+    } else {
+        ruangSelect.classList.add('d-none');
+        kameraSelect.classList.add('d-none');
+    }
+});
+
+ruangSelect.addEventListener('change', function () {
+    const ruangId = this.value;
+    if (ruangId) {
+        fetch(`/api/get-kamera/${ruangId}`)
+            .then(response => response.json())
+            .then(data => {
+                kameraSelect.innerHTML = '<option value="">Pilih Kamera</option>';
+                data.forEach((kamera, index) => {
+                    kameraSelect.innerHTML += `<option value="videoInput${index + 1}">${kamera.nama_kamera}</option>`;
+                });
+                kameraSelect.classList.remove('d-none');
+            });
+    } else {
+        kameraSelect.classList.add('d-none');
+    }
+});
+
+document.getElementById('btn_aktifkan').addEventListener('click', function () {
+    aktifkan();
+});
+
+kameraSelect.addEventListener('change', (event) => {
+    if (btn_aktifkan.classList.contains('d-none')) {
+        btn_aktifkan.classList.remove('d-none');
+    } else {
+        showCamera(event.target.value);
+    }
+});
+
 function aktifkan() {
-    if (varaktifkan == false) {
+    if (!varaktifkan) {
         varaktifkan = true;
         btn_aktifkan.style = "opacity:0;cursor:none;visibility:hidden";
         const lokalKamera = document.getElementById('lokalKamera');
         const semuaKamera = document.querySelectorAll('.deteksiKamera');
-        const cameraSelect = document.getElementById('cameraSelect');
+        const kameraSelect = document.getElementById('kameraSelect');
 
         Promise.all([
             faceapi.nets.faceRecognitionNet.loadFromUri('/assets/models'),
             faceapi.nets.faceLandmark68Net.loadFromUri('/assets/models'),
             faceapi.nets.ssdMobilenetv1.loadFromUri('/assets/models')
-        ]).then(start)
+        ]).then(start);
 
         async function start() {    
             const labeledDescriptors = await loadLabeledImages();
@@ -20,25 +73,18 @@ function aktifkan() {
             btn_pilihkamera.classList.remove("d-none");
             btn_pilihkamera.classList.add("d-flex");
 
-            //mulaiKameraLokal()
-            //recognizeFaces(lokalKamera);
-            cameraSelect.addEventListener('change', (event) => {
-                showCamera(event.target.value);
-            });
-            showCamera(cameraSelect.value);
+            showCamera(kameraSelect.value);
 
             semuaKamera.forEach((element, index) => {
                 if (element.id === 'lokalKamera') {
                     return;
                 }
-                    
+                
                 var iniKamera = element;
-                //iniKamera.classList.remove("d-none");
-
                 setTimeout(function(){
-                    recognizeFaces(iniKamera, labeledDescriptors);
+                    lokasiTerdeteksi = iniKamera.alt;
+                    recognizeFaces(iniKamera, labeledDescriptors, lokasiTerdeteksi);
                 },1000);
-                    
             });
         }
 
@@ -57,6 +103,7 @@ function aktifkan() {
                 }
             });
         }
+    
 
         function mulaiKameraLokal() {
             navigator.mediaDevices.getUserMedia({ video: {} })
@@ -66,7 +113,7 @@ function aktifkan() {
                 .catch(err => console.error(err));
         }
 
-        async function recognizeFaces(videoElement, labeledDescriptors) {
+        async function recognizeFaces(videoElement, labeledDescriptors, lokasiTerdeteksi) {
             //const labeledDescriptors = await loadLabeledImages();
             //console.log(labeledDescriptors);
             const faceMatcher = new faceapi.FaceMatcher(labeledDescriptors, 0.5);
@@ -92,15 +139,15 @@ function aktifkan() {
                     const namafix = nama_person.replace(/\s\([^)]*\)/, '');
                     if (namafix !== "unknown") {
                         if (!dataTerdeteksi.includes(namafix)) {
-                            absenMasuk(namafix);
+                            absenMasuk(namafix, lokasiTerdeteksi);
                             dataTerdeteksi.push(namafix);
                         }
 
                         if (videoElement.classList.contains('showCam')) {
                             const mirroredX = displaySize.width - (box.x + box.width);
                             const mirroredBox = { x: mirroredX, y: box.y, width: box.width, height: box.height };
-                            const drawBox = new faceapi.draw.DrawBox(mirroredBox, { label: namafix, boxColor: 'purple' });
-    
+                            const drawBox = new faceapi.draw.DrawBox(mirroredBox, { label: namafix, boxColor: 'blue' });
+
                             var rect = videoElement.getBoundingClientRect();
                             canvas.style.top = rect.top + 'px';
                             canvas.style.left = rect.left + 'px';
@@ -116,14 +163,16 @@ function aktifkan() {
             //videoElement.onerror = clearInterval(ipCamInterval);
         }
 
-        function absenMasuk(nama) {
+        function absenMasuk(nama, lokasiTerdeteksi) {
+            const data = { nama_person: nama, keterangan: lokasiTerdeteksi };
+
             fetch('/absensi-masuk', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': csrfToken
                 },
-                body: JSON.stringify({ nama_person: nama })
+                body: JSON.stringify(data)
             })
                 .then(response => response.json())
                 .then(data => {

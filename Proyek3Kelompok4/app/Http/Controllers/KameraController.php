@@ -12,12 +12,9 @@ class KameraController extends Controller
 {
     public function index()
     {
-        $kameras = Kamera::all();
+        $kameras = Kamera::with(['gedung', 'ruang'])->get();
         $gedungs = Gedung::all();
         $ruangs = Ruang::all();
-        $kameras = Gedung::join('kamera', 'gedung.id', '=', 'kamera.gedung_id')
-                ->join('ruang', 'ruang.id', '=', 'kamera.ruang_id')
-                ->get(['gedung.*', 'kamera.*', 'ruang.*']);
 
         return view('kamera.index', compact('kameras', 'gedungs', 'ruangs'));
     }
@@ -30,11 +27,11 @@ class KameraController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'gedung_id' => 'required',
-            'ruang_id' => 'required',
-            'nama_kamera' => 'required',
-            'sumber' => 'required',
-            'status' => 'required|in:aktif,nonaktif',
+            'gedung_id' => 'required|exists:gedung,id',
+            'ruang_id' => 'required|exists:ruang,id',
+            'nama_kamera' => 'required|string|max:255',
+            'sumber' => 'required|string|max:255',
+            'status' => ['required', Rule::in(['aktif', 'nonaktif'])],
         ]);
 
         Kamera::create($validatedData);
@@ -50,11 +47,11 @@ class KameraController extends Controller
     public function update(Request $request, Kamera $kamera)
     {
         $validatedData = $request->validate([
-            'gedung_id' => 'required',
-            'ruang_id' => 'required',
-            'nama_kamera' => 'required',
-            'sumber' => 'required',
-            'status' => 'required|in:aktif,nonaktif',
+            'gedung_id' => 'required|exists:gedung,id',
+            'ruang_id' => 'required|exists:ruang,id',
+            'nama_kamera' => 'required|string|max:255',
+            'sumber' => 'required|string|max:255',
+            'status' => ['required', Rule::in(['aktif', 'nonaktif'])],
         ]);
 
         $kamera->update($validatedData);

@@ -17,4 +17,14 @@ class Kamera extends Model
         'sumber',
         'status',
     ];
+
+    public function ruang()
+    {
+        return $this->belongsTo(Ruang::class);
+    }
+
+    public function gedung()
+    {
+        return $this->belongsTo(Gedung::class);
+    }
 }

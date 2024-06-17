@@ -47,8 +47,8 @@
                             <tr>
                                 <th class="px-2">Tanggal</th>
                                 <th class="px-2">Nama</th>
-                                <th class="px-2">Waktu Masuk</th>
-                                <th class="px-2">Waktu Pulang</th>
+                                <th class="px-2">Waktu</th>
+                                {{-- <th class="px-2">Waktu Pulang</th> --}}
                                 <th class="px-2">Keterangan</th>
                             </tr>
                         </thead>
@@ -58,8 +58,8 @@
                                     <td>{{ $d->f_tanggal }}</td>
                                     <td>{{ $d->name }}</td>
                                     <td>{{ $d->f_waktu_masuk }}</td>
-                                    <td>{{ $d->f_waktu_keluar }}</td>
-                                    <td></td>
+                                    {{-- <td>{{ $d->f_waktu_keluar }}</td> --}}
+                                    <td>{{ $d->keterangan }}</td>
                                 </tr>
                             @endforeach
                         </tbody>

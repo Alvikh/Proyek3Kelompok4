@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Absensi;
 use App\Models\Kamera;
+use App\Models\Gedung;
+use App\Models\Ruang;
 use App\Models\Jadwal;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\File;
@@ -29,11 +31,17 @@ class AbsensiController extends Controller
             }
         }
 
-        $kamera = Kamera::where('status', '!=', 'nonaktif')->get();
+        $kamera = Kamera::where('status', '!=', 'nonaktif')
+        ->join('ruang', 'kamera.ruang_id', '=', 'ruang.id')
+        ->join('gedung', 'kamera.gedung_id', '=', 'gedung.id')
+        ->select('kamera.*', 'ruang.nama_ruang', 'gedung.nama_gedung')
+        ->get();
 
+        $gedung = Gedung::all();
+    
         $absensiMasuk = DB::table('absensi')
             ->join('users', 'absensi.users_id', '=', 'users.id')
-            ->selectRaw('absensi.updated_at, absensi.id, users.name as nama_user, users.photo as profil_user, DATE_FORMAT(absensi.waktu_masuk, "%H:%i") as waktu_masuk, NULL as waktu_keluar')
+            ->selectRaw('absensi.updated_at, absensi.id, users.name as nama_user, users.photo as profil_user, absensi.keterangan, DATE_FORMAT(absensi.waktu_masuk, "%H:%i") as waktu_masuk, NULL as waktu_keluar')
             ->whereDate('absensi.waktu_masuk', DB::raw('CURDATE()'));
 
         $absensiKeluar = DB::table('absensi')
@@ -41,26 +49,37 @@ class AbsensiController extends Controller
             ->selectRaw('absensi.updated_at, absensi.id, users.name as nama_user, users.photo as profil_user, NULL as waktu_masuk, DATE_FORMAT(absensi.waktu_keluar, "%H:%i") as waktu_keluar')
             ->whereDate('absensi.waktu_keluar', DB::raw('CURDATE()'));
 
-        $absensi = $absensiKeluar->unionAll($absensiMasuk)
+        /*$absensi = $absensiKeluar->unionAll($absensiMasuk)
+            ->orderByDesc('updated_at')
+            ->get();
+        */
+        $absensi = $absensiMasuk
             ->orderByDesc('updated_at')
             ->get();
 
-        return view('dashboard', compact('jumlahPegawai', 'jumlahPegawaiMasukHariIni', 'jadwal', 'labels', 'absensi', 'kamera'));
+        return view('dashboard', compact('jumlahPegawai', 'jumlahPegawaiMasukHariIni', 'jadwal', 'labels', 'absensi', 'gedung', 'kamera'));
+    }
+
+    public function getRuang($gedungId) {
+        $ruang = Ruang::where('gedung_id', $gedungId)->get();
+        return response()->json($ruang);
+    }
+    
+    public function getKamera($ruangId) {
+        $kamera = Kamera::where('status', '!=', 'nonaktif')
+            ->where('ruang_id', $ruangId)
+            ->join('ruang', 'kamera.ruang_id', '=', 'ruang.id')
+            ->join('gedung', 'kamera.gedung_id', '=', 'gedung.id')
+            ->select('kamera.*', 'ruang.nama_ruang', 'gedung.nama_gedung')
+            ->get();
+        return response()->json($kamera);
     }
 
     function riwayat(){
-        $absensiMasuk = DB::table('absensi')
+        $absensi = DB::table('absensi')
             ->join('users', 'absensi.users_id', '=', 'users.id')
-            ->selectRaw('absensi.updated_at, absensi.id, users.name as nama_user, users.photo as profil_user, DATE_FORMAT(absensi.waktu_masuk, "%H:%i") as waktu_masuk, NULL as waktu_keluar')
-            ->whereDate('absensi.waktu_masuk', DB::raw('CURDATE()'));
-
-        $absensiKeluar = DB::table('absensi')
-            ->join('users', 'absensi.users_id', '=', 'users.id')
-            ->selectRaw('absensi.updated_at, absensi.id, users.name as nama_user, users.photo as profil_user, NULL as waktu_masuk, DATE_FORMAT(absensi.waktu_keluar, "%H:%i") as waktu_keluar')
-            ->whereDate('absensi.waktu_keluar', DB::raw('CURDATE()'));
-
-        $absensi = $absensiKeluar->unionAll($absensiMasuk)
-            ->orderByDesc('updated_at')
+            ->selectRaw('absensi.updated_at, absensi.id, absensi.keterangan, users.name as nama_user, users.photo as profil_user, DATE_FORMAT(absensi.waktu_masuk, "%H:%i") as waktu_masuk, NULL as waktu_keluar')
+            ->whereDate('absensi.waktu_masuk', DB::raw('CURDATE()'))
             ->get();
 
             return view('riwayat', compact('absensi'));
@@ -71,6 +90,51 @@ class AbsensiController extends Controller
         $hariIni = Carbon::now()->locale('id')->dayName;
         return DB::table('jadwal')->where('nama_hari', $hariIni)->first();
     }
+
+    function absensiMasuk(Request $request)
+    {
+        $request->validate([
+            'nama_person' => 'required',
+            'keterangan' => 'required'
+        ]);
+
+        $nama_person = $request->nama_person;
+        $keterangan = $request->keterangan;
+        $data = User::where('name', $nama_person)->firstOrFail();
+        $userId = $data->id;
+
+        $waktuSekarang = Carbon::now()->format('H:i:s');
+
+        // Periksa apakah waktu sekarang sesuai untuk absensi masuk atau keluar
+        if ($waktuSekarang >= "07:00:00"/* && $waktuSekarang <= "18:00:00"*/) {
+            $absenHariIni = Absensi::where('users_id', $userId)
+                ->whereDate('waktu_masuk', Carbon::today())
+                ->first();
+
+            if (!$absenHariIni) {
+                Absensi::create([
+                    'users_id' => $userId,
+                    'waktu_masuk' => now(),
+                    'keterangan' => $keterangan
+                ]);
+
+                return response()->json(['success' => $data->name . ' - ' . 'Absensi masuk'], 200);
+            } elseif ($absenHariIni) {
+                $absenHariIni->update([
+                    'waktu_keluar' => now(),
+                    'keterangan' => $keterangan
+                ]);
+
+                return response()->json(['success' => $data->name . ' - ' . 'Absensi keluar'], 200);
+            } else {
+                return response()->json(['message' => $data->name . ' - ' . 'Sudah melakukan absensi atau belum waktunya absensi keluar'], 200);
+            }
+        } else {
+            return response()->json(['error' => 'Tidak sesuai dengan waktu absensi'], 400);
+        }
+    }
+
+    /*
 
     function absensiMasuk(Request $request)
     {
@@ -117,5 +181,7 @@ class AbsensiController extends Controller
             return response()->json(['error' => 'Tidak sesuai dengan waktu absensi'], 400);
         }
     }
+    
+    */
     
 }

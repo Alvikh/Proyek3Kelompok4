@@ -10,7 +10,10 @@ class Ruang extends Model
     use HasFactory;
     protected $table = 'ruang';
 
-    protected $fillable = [
-        'nama_ruang',
-    ];
+    protected $fillable = ['nama_ruang', 'gedung_id'];
+
+    public function gedung()
+    {
+        return $this->belongsTo(Gedung::class);
+    }
 }

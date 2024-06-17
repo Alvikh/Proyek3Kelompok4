@@ -19,7 +19,7 @@
                                                 <h6 class="text-sm font-weight-normal mb-1">
                                                     <span class="font-weight-bold">{{ $data->nama_user }}</span> -
                                                     @if (!is_null($data->waktu_masuk))
-                                                        <i>Masuk</i>
+                                                        <i>{{ $data->keterangan }}</i>
                                                     @else
                                                         <i>Keluar</i>
                                                     @endif

@@ -12,7 +12,11 @@ class Absensi extends Model
 
     protected $fillable = [
         'users_id',
+        'gedung_id',
+        'ruang_id',
+        'kamera_id',
         'waktu_masuk',
         'waktu_keluar',
+        'keterangan',
     ];
 }
