@@ -96,7 +96,7 @@
         <div class="col-lg-6 mb-4 w-40">
             <div class="card" style="height: 100%;">
                 <div class="card-body p-0">
-                    <h5 class="card-title mb-3" style="font-size:18px">Riwayat Kehadiran Hari Ini</h5>
+                    <h5 class="card-title mb-3" style="font-size:18px">Riwayat Pendeteksian Awal Hari Ini</h5>
                     <ul id="absensi-list" class="dropdown-menu show position-relative m-0 p-0">
                         @foreach ($absensi as $data)
                             <li class="mb-2">
